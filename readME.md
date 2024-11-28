@@ -1,4 +1,4 @@
-# Hospital Management System
+# Clinic Management System
 
 Hệ thống quản lý bệnh viện với các chức năng quản lý bệnh nhân, nhân viên, thuốc và đơn thuốc.
 
