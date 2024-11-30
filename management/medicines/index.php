@@ -5,29 +5,25 @@ include '../includes/header.php';
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $where = '';
 if (!empty($search)) {
-  $where = "WHERE pt.full_name LIKE '%$search%' OR s.full_name LIKE '%$search%' OR m.name LIKE '%$search%'";
+  $where = "WHERE m.name LIKE '%$search%' 
+              OR mt.name LIKE '%$search%'";
 }
 
-$query = "SELECT p.*, 
-          pt.full_name as patient_name,
-          s.full_name as staff_name,
-          m.name as medicine_name
-          FROM prescriptions p
-          LEFT JOIN patients pt ON p.patient_id = pt.id
-          LEFT JOIN staff s ON p.staff_id = s.id
-          LEFT JOIN medicines m ON p.medicine_id = m.id
-          $where
-          ORDER BY p.id DESC";
+$query = "SELECT m.*, mt.name as type_name 
+          FROM medicines m
+          LEFT JOIN medicine_types mt ON m.type_id = mt.id
+          $where 
+          ORDER BY m.id DESC";
 $result = mysqli_query($conn, $query);
 ?>
 
-<div class="prescriptions margin--top">
+<div class="medicines margin--top">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0 fw-bold text-primary">
-      <i class="fas fa-file-prescription me-2"></i>Quản lý đơn thuốc
+      <i class="fas fa-pills me-2"></i>Quản lý thuốc
     </h2>
-    <a href="/prescriptions/create.php" class="btn btn-primary">
-      <i class="fas fa-plus me-2"></i>Thêm đơn thuốc
+    <a href="/management/medicines/create.php" class="btn btn-primary">
+      <i class="fas fa-plus me-2"></i>Thêm thuốc
     </a>
   </div>
 
@@ -39,10 +35,12 @@ $result = mysqli_query($conn, $query);
             <span class="input-group-text bg-white">
               <i class="fas fa-search text-primary"></i>
             </span>
-            <input type="text" name="search" class="form-control" placeholder="Tìm kiếm bệnh nhân, bác sĩ hoặc thuốc" value="<?php echo $search; ?>">
+            <input type="text" name="search" class="form-control"
+              placeholder="Tìm theo tên thuốc hoặc loại thuốc"
+              value="<?php echo $search; ?>">
             <button type="submit" class="btn btn-primary">Tìm kiếm</button>
             <?php if (!empty($search)): ?>
-              <a href="/prescriptions/index.php" class="btn btn-outline-secondary">Xóa</a>
+              <a href="index.php" class="btn btn-outline-secondary">Xóa tìm kiếm</a>
             <?php endif; ?>
           </div>
         </div>
@@ -54,13 +52,12 @@ $result = mysqli_query($conn, $query);
           <thead class="table-light">
             <tr>
               <th class="px-4">ID</th>
-              <th>Ngày</th>
-              <th>Bệnh nhân</th>
-              <th>Bác sĩ</th>
-              <th>Thuốc</th>
+              <th>Tên thuốc</th>
+              <th>Loại thuốc</th>
               <th>Số lượng</th>
-              <th>Tổng giá</th>
-              <th class="text-end px-4">Hành động</th>
+              <th>Đơn giá</th>
+              <th>Ngày nhập</th>
+              <th class="text-end px-4">Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -71,38 +68,35 @@ $result = mysqli_query($conn, $query);
                   <td>
                     <div class="d-flex align-items-center">
                       <div class="avatar-sm bg-info bg-opacity-10 rounded-circle p-2 me-3">
-                        <i class="fas fa-calendar text-info"></i>
+                        <i class="fas fa-capsules text-info"></i>
                       </div>
-                      <?php echo date('d M Y', strtotime($row['prescription_date'])); ?>
+                      <?php echo $row['name']; ?>
                     </div>
                   </td>
                   <td>
                     <span class="badge bg-primary">
-                      <?php echo $row['patient_name']; ?>
+                      <?php echo $row['type_name'] ?? 'Chưa phân loại'; ?>
                     </span>
                   </td>
                   <td>
-                    <span class="badge bg-success">
-                      <?php echo $row['staff_name']; ?>
-                    </span>
+                    <?php if ($row['quantity'] <= 100): ?>
+                      <span class="badge bg-danger"><?php echo $row['quantity']; ?></span>
+                    <?php elseif ($row['quantity'] <= 500): ?>
+                      <span class="badge bg-warning"><?php echo $row['quantity']; ?></span>
+                    <?php else: ?>
+                      <span class="badge bg-success"><?php echo $row['quantity']; ?></span>
+                    <?php endif; ?>
                   </td>
-                  <td><?php echo $row['medicine_name']; ?></td>
-                  <td><?php echo $row['quantity']; ?> đơn vị</td>
-                  <td>
-                    <span class="badge bg-warning text-dark">
-                      $<?php echo number_format($row['price'], 2); ?>
-                    </span>
-                  </td>
+                  <td><?php echo number_format($row['price'], 0, ',', '.'); ?> đ</td>
+                  <td><?php echo date('d/m/Y', strtotime($row['import_date'])); ?></td>
                   <td class="text-end px-4">
-                    <a href="/prescriptions/view.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-outline-info me-2">
-                      <i class="fas fa-eye"></i>
-                    </a>
-                    <a href="/prescriptions/edit.php?id=<?php echo $row['id']; ?>" class="btn btn-sm btn-outline-primary me-2">
+                    <a href="/management/medicines/edit.php?id=<?php echo $row['id']; ?>"
+                      class="btn btn-sm btn-outline-primary me-2">
                       <i class="fas fa-edit"></i>
                     </a>
-                    <a href="/prescriptions/delete.php?id=<?php echo $row['id']; ?>"
+                    <a href="/management/medicines/delete.php?id=<?php echo $row['id']; ?>"
                       class="btn btn-sm btn-outline-danger"
-                      onclick="return confirm('Bạn có chắc chắn muốn xóa đơn thuốc này không?')">
+                      onclick="return confirm('Bạn có chắc chắn muốn xóa thuốc này không?')">
                       <i class="fas fa-trash"></i>
                     </a>
                   </td>
@@ -110,10 +104,10 @@ $result = mysqli_query($conn, $query);
               <?php endwhile; ?>
             <?php else: ?>
               <tr>
-                <td colspan="8" class="text-center py-4">
+                <td colspan="7" class="text-center py-4">
                   <div class="text-muted">
                     <i class="fas fa-inbox fa-3x mb-3"></i>
-                    <p class="mb-0">Không tìm thấy đơn thuốc</p>
+                    <p class="mb-0">Không tìm thấy thuốc nào</p>
                   </div>
                 </td>
               </tr>

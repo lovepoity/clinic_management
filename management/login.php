@@ -3,7 +3,7 @@ session_start();
 include 'config/database.php';
 
 if (isset($_SESSION['user_id'])) {
-  header('Location: dashboard.php');
+  header('Location: ./dashboard.php');
   exit();
 }
 
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $_SESSION['full_name'] = $user['full_name'];
       $_SESSION['role'] = $user['role'];
 
-      header('Location: dashboard.php');
+      header('Location: ./dashboard.php');
       exit();
     } else {
       $error = 'Sai mật khẩu';
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <title>Đăng nhập - Hệ thống quản lý bệnh viện</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <link href="/css/style.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
 </head>
 
 <body class="bg-light">

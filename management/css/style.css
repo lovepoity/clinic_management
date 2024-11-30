@@ -7,7 +7,10 @@
   --light-gray: #f5f6fa;
   --dark-gray: #2c3e50;
 }
-
+* {
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
 body {
   background-color: var(--light-gray);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;

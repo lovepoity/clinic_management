@@ -15,14 +15,14 @@ if (!isset($_SESSION['user_id'])) {
   <title>Hệ thống quản lý phòng khám</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <link href="/css/style.css" rel="stylesheet">
-  <link rel="icon" type="image/x-icon" href="/css/favicon.ico">
+  <link href="/management/css/style.css" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="../css/favicon.ico">
 </head>
 
 <body class="bg-light">
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/dashboard.php">
+      <a class="navbar-brand" href="../dashboard.php">
         <i class="fas fa-hospital me-2"></i>Quản lý phòng khám
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -44,12 +44,12 @@ if (!isset($_SESSION['user_id'])) {
               </a>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="dropdown-item" href="/departments/index.php">
+                  <a class="dropdown-item" href="/management/departments/index.php">
                     <i class="fas fa-building me-2"></i>Quản lý phòng ban
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="/staff/index.php">
+                  <a class="dropdown-item" href="/management/staff/index.php">
                     <i class="fas fa-user-md me-2"></i>Quản lý nhân viên
                   </a>
                 </li>
@@ -64,12 +64,12 @@ if (!isset($_SESSION['user_id'])) {
             </a>
             <ul class="dropdown-menu">
               <li>
-                <a class="dropdown-item" href="/medicine_types/index.php">
+                <a class="dropdown-item" href="/management/medicine_types/index.php">
                   <i class="fas fa-tags me-2"></i>Danh mục loại thuốc
                 </a>
               </li>
               <li>
-                <a class="dropdown-item" href="/medicines/index.php">
+                <a class="dropdown-item" href="/management/medicines/index.php">
                   <i class="fas fa-pills me-2"></i>Danh sách thuốc
                 </a>
               </li>
@@ -82,12 +82,12 @@ if (!isset($_SESSION['user_id'])) {
             </a>
             <ul class="dropdown-menu">
               <li>
-                <a class="dropdown-item" href="/patients/index.php">
+                <a class="dropdown-item" href="/management/patients/index.php">
                   <i class="fas fa-user-injured me-2"></i>Quản lý bệnh nhân
                 </a>
               </li>
               <li>
-                <a class="dropdown-item" href="/prescriptions/index.php">
+                <a class="dropdown-item" href="/management/prescriptions/index.php">
                   <i class="fas fa-file-prescription me-2"></i>Quản lý đơn thuốc
                 </a>
               </li>
@@ -105,7 +105,7 @@ if (!isset($_SESSION['user_id'])) {
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li>
-                <a class="dropdown-item" href="/logout.php">
+                <a class="dropdown-item" href="/management/logout.php">
                   <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
                 </a>
               </li>

@@ -1,6 +1,6 @@
 <?php
-include 'config/database.php';
-include 'includes/header.php';
+include './config/database.php';
+include './includes/header.php';
 
 $patients_query = "SELECT COUNT(*) as total FROM patients";
 $patients_result = mysqli_query($conn, $patients_query);
@@ -137,7 +137,7 @@ $recent_prescriptions = mysqli_query($conn, "
                       <span class="badge bg-success">Đã hoàn thành</span>
                     </td>
                     <td>
-                      <a href="/prescriptions/view.php?id=<?php echo $prescription['id']; ?>"
+                      <a href="/management/prescriptions/view.php?id=<?php echo $prescription['id']; ?>"
                         class="btn btn-sm btn-outline-primary">
                         <i class="fas fa-eye"></i>
                       </a>

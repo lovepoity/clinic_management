@@ -29,10 +29,10 @@ $prescription = mysqli_fetch_assoc($result);
       <i class="fas fa-file-prescription me-2"></i>Chi tiết đơn thuốc
     </h2>
     <div>
-      <a href="index.php" class="btn btn-light me-2">
+      <a href="/management/prescriptions/index.php" class="btn btn-light me-2">
         <i class="fas fa-arrow-left me-2"></i>Quay lại
       </a>
-      <a href="edit.php?id=<?php echo $id; ?>" class="btn btn-warning">
+      <a href="/management/prescriptions/edit.php?id=<?php echo $id; ?>" class="btn btn-warning">
         <i class="fas fa-edit me-2"></i>Sửa
       </a>
     </div>
