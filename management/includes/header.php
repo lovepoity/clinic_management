@@ -22,7 +22,7 @@ if (!isset($_SESSION['user_id'])) {
 <body class="bg-light">
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="../dashboard.php">
+      <a class="navbar-brand" href="/management/dashboard.php">
         <i class="fas fa-hospital me-2"></i>Quản lý phòng khám
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -31,7 +31,7 @@ if (!isset($_SESSION['user_id'])) {
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="/dashboard.php">
+            <a class="nav-link" href="/management/dashboard.php">
               <i class="fas fa-home me-2"></i>Trang chủ
             </a>
           </li>
