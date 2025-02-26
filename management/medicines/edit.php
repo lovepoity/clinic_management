@@ -9,31 +9,33 @@ $type_query = "SELECT * FROM medicine_types";
 $types = mysqli_query($conn, $type_query);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $name = $_POST['name'];
-  $type_id = $_POST['type_id'];
-  $quantity = $_POST['quantity'];
-  $price = $_POST['price'];
-  $import_date = $_POST['import_date'];
+  $name = mysqli_real_escape_string($conn, $_POST['name']);
+  $type_id = (int)$_POST['type_id'];
+  $price = (float)$_POST['price'];
 
   $query = "UPDATE medicines SET 
-              name = '$name',
-              type_id = $type_id,
-              quantity = $quantity, 
-              price = $price,
-              import_date = '$import_date'
-              WHERE id = $id";
+              name = ?,
+              type_id = ?,
+              price = ?
+              WHERE id = ?";
 
-  if (mysqli_query($conn, $query)) {
+  $stmt = mysqli_prepare($conn, $query);
+  mysqli_stmt_bind_param($stmt, "sidd", $name, $type_id, $price, $id);
+
+  if (mysqli_stmt_execute($stmt)) {
     ob_end_clean();
     header('Location: index.php');
     exit();
   } else {
-    echo "Error: " . $query . "<br>" . mysqli_error($conn);
+    echo "Lỗi: " . mysqli_error($conn);
   }
 }
 
-$query = "SELECT * FROM medicines WHERE id = $id";
-$result = mysqli_query($conn, $query);
+$query = "SELECT * FROM medicines WHERE id = ?";
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, "i", $id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 $medicine = mysqli_fetch_assoc($result);
 ?>
 
@@ -54,7 +56,7 @@ $medicine = mysqli_fetch_assoc($result);
                 <span class="input-group-text bg-light">
                   <i class="fas fa-capsules text-primary"></i>
                 </span>
-                <input type="text" name="name" class="form-control" value="<?php echo $medicine['name']; ?>" required>
+                <input type="text" name="name" class="form-control" value="<?php echo htmlspecialchars($medicine['name']); ?>" required>
                 <div class="invalid-feedback">
                   Vui lòng nhập tên thuốc
                 </div>
@@ -70,7 +72,7 @@ $medicine = mysqli_fetch_assoc($result);
                 <select name="type_id" class="form-select" required>
                   <?php while ($type = mysqli_fetch_assoc($types)): ?>
                     <option value="<?php echo $type['id']; ?>" <?php echo ($medicine['type_id'] == $type['id']) ? 'selected' : ''; ?>>
-                      <?php echo $type['name']; ?>
+                      <?php echo htmlspecialchars($type['name']); ?>
                     </option>
                   <?php endwhile; ?>
                 </select>
@@ -80,46 +82,16 @@ $medicine = mysqli_fetch_assoc($result);
               </div>
             </div>
 
-            <div class="row">
-              <div class="col-md-6">
-                <div class="mb-4">
-                  <label class="form-label fw-bold">Số lượng</label>
-                  <div class="input-group">
-                    <span class="input-group-text bg-light">
-                      <i class="fas fa-cubes text-primary"></i>
-                    </span>
-                    <input type="number" name="quantity" class="form-control" value="<?php echo $medicine['quantity']; ?>" min="0" required>
-                    <div class="invalid-feedback">
-                      Vui lòng nhập số lượng hợp lệ
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="mb-4">
-                  <label class="form-label fw-bold">Giá</label>
-                  <div class="input-group">
-                    <span class="input-group-text bg-light">
-                      <i class="fas fa-dollar-sign text-primary"></i>
-                    </span>
-                    <input type="number" name="price" class="form-control" value="<?php echo $medicine['price']; ?>" min="0" step="0.01" required>
-                    <div class="invalid-feedback">
-                      Vui lòng nhập giá hợp lệ
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <div class="mb-4">
-              <label class="form-label fw-bold">Ngày nhập</label>
+              <label class="form-label fw-bold">Giá (VNĐ)</label>
               <div class="input-group">
                 <span class="input-group-text bg-light">
-                  <i class="fas fa-calendar text-primary"></i>
+                  <i class="fas fa-dollar-sign text-primary"></i>
                 </span>
-                <input type="date" name="import_date" class="form-control" value="<?php echo $medicine['import_date']; ?>" required>
+                <input type="number" name="price" class="form-control" value="<?php echo $medicine['price']; ?>" min="0" step="0.01" required>
+                <span class="input-group-text bg-light">VNĐ</span>
                 <div class="invalid-feedback">
-                  Vui lòng chọn ngày nhập
+                  Vui lòng nhập giá hợp lệ
                 </div>
               </div>
             </div>
