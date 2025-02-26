@@ -2,10 +2,17 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
+<<<<<<< HEAD
 -- Máy chủ: localhost:3306
 -- Thời gian đã tạo: Th2 26, 2025 lúc 02:52 PM
 -- Phiên bản máy phục vụ: 8.0.30
 -- Phiên bản PHP: 8.1.10
+=======
+-- Host: 127.0.0.1
+-- Generation Time: Nov 28, 2024 at 07:36 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +25,11 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
+<<<<<<< HEAD
 -- Cơ sở dữ liệu: `clinic_management`
+=======
+-- Database: `clinic_management`
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
 --
 CREATE DATABASE IF NOT EXISTS `clinic_management` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `clinic_management`;
@@ -26,6 +37,7 @@ USE `clinic_management`;
 -- --------------------------------------------------------
 
 --
+<<<<<<< HEAD
 -- Cấu trúc bảng cho bảng `departments`
 --
 
@@ -37,6 +49,19 @@ CREATE TABLE `departments` (
 
 --
 -- Đang đổ dữ liệu cho bảng `departments`
+=======
+-- Table structure for table `departments`
+--
+
+CREATE TABLE `departments` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `departments`
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
 --
 
 INSERT INTO `departments` (`id`, `name`, `description`) VALUES
@@ -54,6 +79,7 @@ INSERT INTO `departments` (`id`, `name`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
+<<<<<<< HEAD
 -- Cấu trúc bảng cho bảng `medicines`
 --
 
@@ -84,10 +110,40 @@ INSERT INTO `medicines` (`id`, `name`, `type_id`, `price`) VALUES
 (13, 'Decolgen Forte', 6, 2500.00),
 (14, 'Mobic 7.5mg', 2, 12000.00),
 (15, 'Nexium 40mg', 5, 25000.00);
+=======
+-- Table structure for table `medicines`
+--
+
+CREATE TABLE `medicines` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `type_id` int(11) DEFAULT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `import_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `medicines`
+--
+
+INSERT INTO `medicines` (`id`, `name`, `type_id`, `quantity`, `price`, `import_date`) VALUES
+(1, 'Amoxicillin 500mg', 1, 1000, 5000.00, '2024-03-15'),
+(2, 'Paracetamol 500mg', 2, 2000, 2000.00, '2024-03-16'),
+(3, 'Aspirin 81mg', 3, 1500, 3000.00, '2024-03-17'),
+(4, 'Vitamin C 1000mg', 4, 3000, 1500.00, '2024-03-18'),
+(5, 'Omeprazole 20mg', 5, 1000, 8000.00, '2024-03-19'),
+(6, 'Ventolin 100mcg', 6, 500, 120000.00, '2024-03-20'),
+(7, 'Betadine 10%', 7, 800, 25000.00, '2024-03-21'),
+(8, 'Diazepam 5mg', 8, 600, 15000.00, '2024-03-22'),
+(9, 'Metformin 850mg', 9, 1200, 4000.00, '2024-03-23'),
+(10, 'Tobradex', 10, 400, 95000.00, '2024-03-24');
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
 
 -- --------------------------------------------------------
 
 --
+<<<<<<< HEAD
 -- Cấu trúc bảng cho bảng `medicine_batches`
 --
 
@@ -167,6 +223,19 @@ CREATE TABLE `medicine_types` (
 
 --
 -- Đang đổ dữ liệu cho bảng `medicine_types`
+=======
+-- Table structure for table `medicine_types`
+--
+
+CREATE TABLE `medicine_types` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `medicine_types`
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
 --
 
 INSERT INTO `medicine_types` (`id`, `name`, `description`) VALUES
@@ -184,6 +253,7 @@ INSERT INTO `medicine_types` (`id`, `name`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
+<<<<<<< HEAD
 -- Cấu trúc bảng cho bảng `patients`
 --
 
@@ -198,6 +268,22 @@ CREATE TABLE `patients` (
 
 --
 -- Đang đổ dữ liệu cho bảng `patients`
+=======
+-- Table structure for table `patients`
+--
+
+CREATE TABLE `patients` (
+  `id` int(11) NOT NULL,
+  `full_name` varchar(100) NOT NULL,
+  `gender` enum('Male','Female','Other') NOT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `birth_date` date DEFAULT NULL,
+  `address` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `patients`
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
 --
 
 INSERT INTO `patients` (`id`, `full_name`, `gender`, `phone`, `birth_date`, `address`) VALUES
@@ -215,6 +301,7 @@ INSERT INTO `patients` (`id`, `full_name`, `gender`, `phone`, `birth_date`, `add
 -- --------------------------------------------------------
 
 --
+<<<<<<< HEAD
 -- Cấu trúc bảng cho bảng `prescriptions`
 --
 
@@ -260,6 +347,56 @@ CREATE TABLE `staff` (
 
 --
 -- Đang đổ dữ liệu cho bảng `staff`
+=======
+-- Table structure for table `prescriptions`
+--
+
+CREATE TABLE `prescriptions` (
+  `id` int(11) NOT NULL,
+  `patient_id` int(11) DEFAULT NULL,
+  `staff_id` int(11) DEFAULT NULL,
+  `medicine_id` int(11) DEFAULT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `prescription_date` date NOT NULL,
+  `diagnosis` text NOT NULL,
+  `doctor_notes` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `prescriptions`
+--
+
+INSERT INTO `prescriptions` (`id`, `patient_id`, `staff_id`, `medicine_id`, `quantity`, `price`, `prescription_date`, `diagnosis`, `doctor_notes`) VALUES
+(1, 1, 1, 1, 20, 100000.00, '2024-03-15', 'Viêm họng cấp', 'Uống thuốc đều đặn, nghỉ ngơi nhiều'),
+(2, 2, 2, 2, 30, 60000.00, '2024-03-16', 'Đau đầu mãn tính', 'Uống thuốc khi đau, tránh căng thẳng'),
+(3, 3, 3, 3, 60, 180000.00, '2024-03-17', 'Cao huyết áp', 'Uống thuốc đều đặn mỗi sáng'),
+(4, 4, 4, 4, 90, 135000.00, '2024-03-18', 'Suy nhược cơ thể', 'Uống vitamin sau bữa ăn'),
+(5, 5, 5, 5, 30, 240000.00, '2024-03-19', 'Viêm dạ dày', 'Uống thuốc trước ăn 30 phút'),
+(6, 1, 6, 6, 2, 240000.00, '2024-03-20', 'Hen suyễn cấp', 'Xịt thuốc khi khó thở'),
+(7, 2, 7, 7, 2, 50000.00, '2024-03-21', 'Nhiễm trùng da', 'Bôi thuốc 2 lần/ngày'),
+(8, 3, 8, 8, 30, 450000.00, '2024-03-22', 'Rối loạn lo âu', 'Uống thuốc trước khi ngủ'),
+(9, 4, 9, 9, 60, 240000.00, '2024-03-23', 'Tiểu đường type 2', 'Uống thuốc sau bữa ăn'),
+(10, 5, 10, 10, 1, 95000.00, '2024-03-24', 'Viêm kết mạc', 'Nhỏ mắt 4 lần/ngày');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `staff`
+--
+
+CREATE TABLE `staff` (
+  `id` int(11) NOT NULL,
+  `full_name` varchar(100) NOT NULL,
+  `gender` enum('Male','Female','Other') NOT NULL,
+  `birth_year` int(11) NOT NULL,
+  `position` varchar(100) NOT NULL,
+  `department_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `staff`
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
 --
 
 INSERT INTO `staff` (`id`, `full_name`, `gender`, `birth_year`, `position`, `department_id`) VALUES
@@ -277,6 +414,7 @@ INSERT INTO `staff` (`id`, `full_name`, `gender`, `birth_year`, `position`, `dep
 -- --------------------------------------------------------
 
 --
+<<<<<<< HEAD
 -- Cấu trúc bảng cho bảng `users`
 --
 
@@ -291,6 +429,22 @@ CREATE TABLE `users` (
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
+=======
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `full_name` varchar(100) NOT NULL,
+  `role` enum('admin','staff') NOT NULL DEFAULT 'staff',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `full_name`, `role`, `created_at`) VALUES
@@ -298,16 +452,25 @@ INSERT INTO `users` (`id`, `username`, `password`, `full_name`, `role`, `created
 (2, 'staff', '123', 'Bác sĩ Ngô Lax', 'staff', '2024-11-28 18:36:09');
 
 --
+<<<<<<< HEAD
 -- Chỉ mục cho các bảng đã đổ
 --
 
 --
 -- Chỉ mục cho bảng `departments`
+=======
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `departments`
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
 --
 ALTER TABLE `departments`
   ADD PRIMARY KEY (`id`);
 
 --
+<<<<<<< HEAD
 -- Chỉ mục cho bảng `medicines`
 --
 ALTER TABLE `medicines`
@@ -322,22 +485,41 @@ ALTER TABLE `medicine_batches`
 
 --
 -- Chỉ mục cho bảng `medicine_types`
+=======
+-- Indexes for table `medicines`
+--
+ALTER TABLE `medicines`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `type_id` (`type_id`);
+
+--
+-- Indexes for table `medicine_types`
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
 --
 ALTER TABLE `medicine_types`
   ADD PRIMARY KEY (`id`);
 
 --
+<<<<<<< HEAD
 -- Chỉ mục cho bảng `patients`
+=======
+-- Indexes for table `patients`
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
 --
 ALTER TABLE `patients`
   ADD PRIMARY KEY (`id`);
 
 --
+<<<<<<< HEAD
 -- Chỉ mục cho bảng `prescriptions`
+=======
+-- Indexes for table `prescriptions`
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
 --
 ALTER TABLE `prescriptions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `patient_id` (`patient_id`),
+<<<<<<< HEAD
   ADD KEY `fk_prescriptions_staff` (`staff_id`);
 
 --
@@ -432,6 +614,94 @@ ALTER TABLE `prescription_details`
   ADD CONSTRAINT `prescription_details_ibfk_1` FOREIGN KEY (`prescription_id`) REFERENCES `prescriptions` (`id`),
   ADD CONSTRAINT `prescription_details_ibfk_2` FOREIGN KEY (`medicine_id`) REFERENCES `medicines` (`id`),
   ADD CONSTRAINT `prescription_details_ibfk_3` FOREIGN KEY (`batch_id`) REFERENCES `medicine_batches` (`id`);
+=======
+  ADD KEY `staff_id` (`staff_id`),
+  ADD KEY `medicine_id` (`medicine_id`);
+
+--
+-- Indexes for table `staff`
+--
+ALTER TABLE `staff`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `department_id` (`department_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `departments`
+--
+ALTER TABLE `departments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `medicines`
+--
+ALTER TABLE `medicines`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `medicine_types`
+--
+ALTER TABLE `medicine_types`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `patients`
+--
+ALTER TABLE `patients`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `prescriptions`
+--
+ALTER TABLE `prescriptions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+
+--
+-- AUTO_INCREMENT for table `staff`
+--
+ALTER TABLE `staff`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `medicines`
+--
+ALTER TABLE `medicines`
+  ADD CONSTRAINT `medicines_ibfk_1` FOREIGN KEY (`type_id`) REFERENCES `medicine_types` (`id`);
+
+--
+-- Constraints for table `prescriptions`
+--
+ALTER TABLE `prescriptions`
+  ADD CONSTRAINT `prescriptions_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`),
+  ADD CONSTRAINT `prescriptions_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`id`),
+  ADD CONSTRAINT `prescriptions_ibfk_3` FOREIGN KEY (`medicine_id`) REFERENCES `medicines` (`id`);
+
+--
+-- Constraints for table `staff`
+--
+ALTER TABLE `staff`
+  ADD CONSTRAINT `staff_ibfk_1` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`);
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

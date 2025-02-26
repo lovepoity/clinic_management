@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Mô tả chi tiết dự án
 Clinic Management System (CMS) là một hệ thống quản lý dành cho phòng khám, giúp tối ưu hóa các quy trình từ quản lý bệnh nhân, nhân viên, kho thuốc đến xử lý đơn thuốc. Hệ thống này không chỉ cung cấp giao diện quản lý dễ sử dụng mà còn tích hợp các API giúp các hệ thống bên thứ ba có thể mở rộng và tích hợp.
 
@@ -67,6 +68,8 @@ Kiến trúc hệ thống
    Đưa hệ thống vào hoạt động chính thức.
    Cập nhật và sửa lỗi định kỳ.
 
+=======
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
 # Clinic Management System
 
 Hệ thống quản lý phòng khám với các chức năng quản lý bệnh nhân, nhân viên, thuốc và đơn thuốc.

@@ -7,6 +7,7 @@ include '../includes/header.php';
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+<<<<<<< HEAD
   $full_name = mysqli_real_escape_string($conn, $_POST['full_name']);
   $birth_date = mysqli_real_escape_string($conn, $_POST['birth_date']);
   $gender = mysqli_real_escape_string($conn, $_POST['gender']);
@@ -21,6 +22,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   if (mysqli_stmt_execute($stmt)) {
     ob_end_clean();
+=======
+  $full_name = $_POST['full_name'];
+  $gender = $_POST['gender'];
+  $birth_date = $_POST['birth_date'];
+  $phone = $_POST['phone'];
+  $address = $_POST['address'];
+
+  $query = "INSERT INTO patients (full_name, gender, birth_date, phone, address) VALUES ('$full_name', '$gender', '$birth_date', '$phone', '$address')";
+
+  if (mysqli_query($conn, $query)) {
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
     $_SESSION['success_message'] = "Thêm bệnh nhân thành công";
     header('Location: index.php');
     exit();

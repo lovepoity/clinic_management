@@ -11,6 +11,7 @@ $types = mysqli_query($conn, $type_query);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $name = $_POST['name'];
   $type_id = $_POST['type_id'];
+<<<<<<< HEAD
   $price = $_POST['price'];
 
   $query = "UPDATE medicines SET 
@@ -23,11 +24,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   mysqli_stmt_bind_param($stmt, "sidi", $name, $type_id, $price, $id);
 
   if (mysqli_stmt_execute($stmt)) {
+=======
+  $quantity = $_POST['quantity'];
+  $price = $_POST['price'];
+  $import_date = $_POST['import_date'];
+
+  $query = "UPDATE medicines SET 
+              name = '$name',
+              type_id = $type_id,
+              quantity = $quantity,
+              price = $price,
+              import_date = '$import_date'
+              WHERE id = $id";
+
+  if (mysqli_query($conn, $query)) {
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
     ob_end_clean();
     header('Location: index.php');
     exit();
   } else {
+<<<<<<< HEAD
     echo "Error: " . mysqli_error($conn);
+=======
+    echo "Error: " . $query . "<br>" . mysqli_error($conn);
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
   }
 }
 
@@ -82,13 +102,35 @@ $medicine = mysqli_fetch_assoc($result);
             <div class="row">
               <div class="col-md-6">
                 <div class="mb-4">
+<<<<<<< HEAD
                   <label class="form-label fw-bold">Giá (VNĐ)</label>
+=======
+                  <label class="form-label fw-bold">Số lượng</label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light">
+                      <i class="fas fa-cubes text-primary"></i>
+                    </span>
+                    <input type="number" name="quantity" class="form-control" value="<?php echo $medicine['quantity']; ?>" min="0" required>
+                    <div class="invalid-feedback">
+                      Vui lòng nhập số lượng hợp lệ
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-4">
+                  <label class="form-label fw-bold">Giá</label>
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
                   <div class="input-group">
                     <span class="input-group-text bg-light">
                       <i class="fas fa-dollar-sign text-primary"></i>
                     </span>
+<<<<<<< HEAD
                     <input type="number" name="price" class="form-control" value="<?php echo $medicine['price']; ?>" min="0" required>
                     <span class="input-group-text bg-light">VNĐ</span>
+=======
+                    <input type="number" name="price" class="form-control" value="<?php echo $medicine['price']; ?>" min="0" step="0.01" required>
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
                     <div class="invalid-feedback">
                       Vui lòng nhập giá hợp lệ
                     </div>
@@ -97,6 +139,22 @@ $medicine = mysqli_fetch_assoc($result);
               </div>
             </div>
 
+<<<<<<< HEAD
+=======
+            <div class="mb-4">
+              <label class="form-label fw-bold">Ngày nhập</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">
+                  <i class="fas fa-calendar text-primary"></i>
+                </span>
+                <input type="date" name="import_date" class="form-control" value="<?php echo $medicine['import_date']; ?>" required>
+                <div class="invalid-feedback">
+                  Vui lòng chọn ngày nhập
+                </div>
+              </div>
+            </div>
+
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
               <a href="index.php" class="btn btn-light me-md-2">
                 <i class="fas fa-arrow-left me-2"></i>Quay lại

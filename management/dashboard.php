@@ -18,6 +18,10 @@ $prescriptions_query = "SELECT COUNT(*) as total FROM prescriptions";
 $prescriptions_result = mysqli_query($conn, $prescriptions_query);
 $prescriptions_count = mysqli_fetch_assoc($prescriptions_result)['total'];
 
+<<<<<<< HEAD
+=======
+// Recent Prescriptions
+>>>>>>> 0695859d63a820c859be24892da491c533d353aa
 $recent_prescriptions = mysqli_query($conn, "
     SELECT p.*, pt.full_name as patient_name, s.full_name as doctor_name 
     FROM prescriptions p
