@@ -9,7 +9,6 @@ if (!empty($search)) {
               OR mt.name LIKE '%$search%'";
 }
 
-<<<<<<< HEAD
 $query = "SELECT m.*, mt.name as type_name,
           COALESCE(SUM(mb.quantity), 0) as total_quantity 
           FROM medicines m
@@ -17,12 +16,6 @@ $query = "SELECT m.*, mt.name as type_name,
           LEFT JOIN medicine_batches mb ON m.id = mb.medicine_id
           $where 
           GROUP BY m.id, m.name, m.type_id, m.price, mt.name
-=======
-$query = "SELECT m.*, mt.name as type_name 
-          FROM medicines m
-          LEFT JOIN medicine_types mt ON m.type_id = mt.id
-          $where 
->>>>>>> 0695859d63a820c859be24892da491c533d353aa
           ORDER BY m.id DESC";
 $result = mysqli_query($conn, $query);
 ?>
@@ -64,16 +57,9 @@ $result = mysqli_query($conn, $query);
               <th class="px-4">ID</th>
               <th>Tên thuốc</th>
               <th>Loại thuốc</th>
-<<<<<<< HEAD
               <th>Tổng số lượng</th>
               <th>Đơn giá</th>
               <th>Thao tác</th>
-=======
-              <th>Số lượng</th>
-              <th>Đơn giá</th>
-              <th>Ngày nhập</th>
-              <th class="text-end px-4">Thao tác</th>
->>>>>>> 0695859d63a820c859be24892da491c533d353aa
             </tr>
           </thead>
           <tbody>
@@ -83,19 +69,13 @@ $result = mysqli_query($conn, $query);
                   <td class="px-4"><?php echo $row['id']; ?></td>
                   <td>
                     <div class="d-flex align-items-center">
-<<<<<<< HEAD
                       <div class="avatar-sm bg-primary bg-opacity-10 rounded-circle p-2 me-3">
                         <i class="fas fa-pills text-primary"></i>
-=======
-                      <div class="avatar-sm bg-info bg-opacity-10 rounded-circle p-2 me-3">
-                        <i class="fas fa-capsules text-info"></i>
->>>>>>> 0695859d63a820c859be24892da491c533d353aa
                       </div>
                       <?php echo $row['name']; ?>
                     </div>
                   </td>
                   <td>
-<<<<<<< HEAD
                     <?php if ($row['type_name']): ?>
                       <span class="badge bg-info"><?php echo $row['type_name']; ?></span>
                     <?php endif; ?>
@@ -107,24 +87,6 @@ $result = mysqli_query($conn, $query);
                       class="btn btn-sm btn-outline-info me-2" title="Quản lý lô">
                       <i class="fas fa-boxes"></i>
                     </a>
-=======
-                    <span class="badge bg-primary">
-                      <?php echo $row['type_name'] ?? 'Chưa phân loại'; ?>
-                    </span>
-                  </td>
-                  <td>
-                    <?php if ($row['quantity'] <= 100): ?>
-                      <span class="badge bg-danger"><?php echo $row['quantity']; ?></span>
-                    <?php elseif ($row['quantity'] <= 500): ?>
-                      <span class="badge bg-warning"><?php echo $row['quantity']; ?></span>
-                    <?php else: ?>
-                      <span class="badge bg-success"><?php echo $row['quantity']; ?></span>
-                    <?php endif; ?>
-                  </td>
-                  <td><?php echo number_format($row['price'], 0, ',', '.'); ?> đ</td>
-                  <td><?php echo date('d/m/Y', strtotime($row['import_date'])); ?></td>
-                  <td class="text-end px-4">
->>>>>>> 0695859d63a820c859be24892da491c533d353aa
                     <a href="/management/medicines/edit.php?id=<?php echo $row['id']; ?>"
                       class="btn btn-sm btn-outline-primary me-2">
                       <i class="fas fa-edit"></i>
