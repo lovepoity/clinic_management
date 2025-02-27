@@ -31,16 +31,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $patient_id = $_POST['patient_id'];
   $staff_id = $_POST['staff_id'];
   $diagnosis = $_POST['diagnosis'];
+  $doctor_notes = $_POST['doctor_notes'];
   $prescription_date = date('Y-m-d');
 
   mysqli_begin_transaction($conn);
 
   try {
-    $query = "INSERT INTO prescriptions (patient_id, staff_id, diagnosis, prescription_date) 
-              VALUES (?, ?, ?, ?)";
+    $query = "INSERT INTO prescriptions (patient_id, staff_id, diagnosis, doctor_notes, prescription_date) 
+              VALUES (?, ?, ?, ?, ?)";
 
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "iiss", $patient_id, $staff_id, $diagnosis, $prescription_date);
+    mysqli_stmt_bind_param($stmt, "iisss", $patient_id, $staff_id, $diagnosis, $doctor_notes, $prescription_date);
 
     if (mysqli_stmt_execute($stmt)) {
       $prescription_id = mysqli_insert_id($conn);
@@ -83,12 +84,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <div class="container-fluid margin--top">
-  <div class="row justify-content-center">
-    <div class="col-12 col-lg-8">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0 fw-bold text-primary">
+          <i class="fas fa-prescription me-2"></i>Tạo đơn thuốc mới
+        </h2>
+      </div>
+
       <div class="card border-0 shadow-sm">
         <div class="card-header bg-white py-3">
           <h5 class="card-title mb-0 fw-bold text-primary">
-            <i class="fas fa-file-prescription me-2"></i>Tạo đơn thuốc mới
+            <i class="fas fa-file-prescription me-2"></i>Thông tin đơn thuốc
           </h5>
         </div>
         <div class="card-body">
@@ -126,14 +133,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     Vui lòng chọn bác sĩ
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div class="mb-4">
-              <label class="form-label fw-bold">Chẩn đoán</label>
-              <textarea name="diagnosis" class="form-control" rows="3" required></textarea>
-              <div class="invalid-feedback">
-                Vui lòng nhập chẩn đoán
               </div>
             </div>
 
@@ -188,6 +187,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                   <i class="fas fa-plus me-2"></i>Thêm thuốc
                 </button>
               </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label fw-bold">Chẩn đoán</label>
+              <textarea name="diagnosis" class="form-control" rows="3" required></textarea>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label fw-bold">Ghi chú của bác sĩ</label>
+              <textarea name="doctor_notes" class="form-control" rows="3"></textarea>
             </div>
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">

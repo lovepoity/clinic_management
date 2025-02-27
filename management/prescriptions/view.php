@@ -129,6 +129,13 @@ $medicines_result = mysqli_query($conn, $details_query);
             <p class="border rounded p-3 bg-light"><?php echo nl2br($prescription['diagnosis']); ?></p>
           </div>
 
+          <?php if (!empty($prescription['doctor_notes'])): ?>
+            <div class="mb-4">
+              <h6 class="fw-bold mb-3">Ghi chú của bác sĩ:</h6>
+              <p class="border rounded p-3 bg-light"><?php echo nl2br($prescription['doctor_notes']); ?></p>
+            </div>
+          <?php endif; ?>
+
           <h6 class="fw-bold mb-3">Chi tiết đơn thuốc:</h6>
           <div class="table-responsive">
             <table class="table table-hover">

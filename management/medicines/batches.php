@@ -47,7 +47,7 @@ $batches = mysqli_query($conn, $batches_query);
                     <td><?php echo $batch['expiry_date'] ? date('d/m/Y', strtotime($batch['expiry_date'])) : 'N/A'; ?></td>
                     <td>
                       <?php
-                      // Tính số lượng đã sử dụng
+
                       $used_query = "SELECT COALESCE(SUM(quantity), 0) as used FROM prescription_details WHERE batch_id = " . $batch['id'];
                       $used_result = mysqli_query($conn, $used_query);
                       $used = mysqli_fetch_assoc($used_result)['used'];
@@ -56,10 +56,12 @@ $batches = mysqli_query($conn, $batches_query);
                       ?>
                     </td>
                     <td>
-                      <button class="btn btn-sm btn-outline-primary me-2" onclick="editBatch(<?php echo $batch['id']; ?>)">
+                      <button type="button" class="btn btn-sm btn-outline-primary me-2"
+                        onclick="editBatch(<?php echo htmlspecialchars(json_encode($batch)); ?>)">
                         <i class="fas fa-edit"></i>
                       </button>
-                      <button class="btn btn-sm btn-outline-danger" onclick="deleteBatch(<?php echo $batch['id']; ?>)">
+                      <button type="button" class="btn btn-sm btn-outline-danger"
+                        onclick="deleteBatch(<?php echo $batch['id']; ?>)">
                         <i class="fas fa-trash"></i>
                       </button>
                     </td>
@@ -74,7 +76,6 @@ $batches = mysqli_query($conn, $batches_query);
   </div>
 </div>
 
-<!-- Modal thêm lô mới -->
 <div class="modal fade" id="addBatchModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -109,6 +110,48 @@ $batches = mysqli_query($conn, $batches_query);
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
           <button type="submit" class="btn btn-primary">Lưu lô thuốc</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal sửa lô thuốc -->
+<div class="modal fade" id="editBatchModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Sửa thông tin lô thuốc</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form id="editBatchForm">
+        <div class="modal-body">
+          <input type="hidden" name="batch_id" id="edit_batch_id">
+          <input type="hidden" name="medicine_id" value="<?php echo $medicine_id; ?>">
+
+          <div class="mb-3">
+            <label class="form-label">Mã lô</label>
+            <input type="text" name="batch_number" id="edit_batch_number" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Số lượng</label>
+            <input type="number" name="quantity" id="edit_quantity" class="form-control" min="1" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Ngày nhập</label>
+            <input type="date" name="import_date" id="edit_import_date" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Hạn sử dụng</label>
+            <input type="date" name="expiry_date" id="edit_expiry_date" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+          <button type="submit" class="btn btn-primary">Cập nhật</button>
         </div>
       </form>
     </div>
@@ -176,6 +219,43 @@ $batches = mysqli_query($conn, $batches_query);
         });
     }
   }
+
+  function editBatch(batch) {
+    document.getElementById('edit_batch_id').value = batch.id;
+    document.getElementById('edit_batch_number').value = batch.batch_number;
+    document.getElementById('edit_quantity').value = batch.quantity;
+    document.getElementById('edit_import_date').value = batch.import_date;
+    document.getElementById('edit_expiry_date').value = batch.expiry_date;
+
+    const modal = new bootstrap.Modal(document.getElementById('editBatchModal'));
+    modal.show();
+  }
+
+  document.getElementById('editBatchForm').onsubmit = async function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+
+    try {
+      const response = await fetch('update_batch.php', {
+        method: 'POST',
+        body: formData
+      });
+
+      const message = await response.text();
+
+      if (response.ok) {
+        showToast('Cập nhật lô thuốc thành công');
+        const modal = bootstrap.Modal.getInstance(document.getElementById('editBatchModal'));
+        modal.hide();
+        location.reload();
+      } else {
+        showToast(message || 'Có lỗi xảy ra', false);
+      }
+    } catch (error) {
+      showToast('Có lỗi xảy ra', false);
+      console.error('Error:', error);
+    }
+  };
 </script>
 
 <?php include '../includes/footer.php'; ?>

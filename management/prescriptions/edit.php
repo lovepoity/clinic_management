@@ -14,8 +14,8 @@ $patients = mysqli_query($conn, $patients_query);
 $staff_query = "SELECT * FROM staff";
 $staff = mysqli_query($conn, $staff_query);
 
-$medicines_query = "SELECT * FROM medicines WHERE quantity > 0";
-$medicines = mysqli_query($conn, $medicines_query);
+$medicines_query = "SELECT * FROM medicines";
+$medicines_result = mysqli_query($conn, $medicines_query);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $patient_id = $_POST['patient_id'];
@@ -125,116 +125,143 @@ $medicines = mysqli_query($conn, $medicines_query);
 ?>
 
 <div class="container-fluid margin--top">
-  <div class="card border-0 shadow-sm">
-    <div class="card-header bg-white py-3">
-      <h5 class="card-title mb-0 fw-bold text-primary">
-        <i class="fas fa-edit me-2"></i>Sửa đơn thuốc #<?php echo $id; ?>
-      </h5>
-    </div>
-    <div class="card-body">
-      <form method="POST" action="/management/prescriptions/edit.php?id=<?php echo $id; ?>" class="needs-validation" novalidate>
-        <input type="hidden" name="id" value="<?php echo $id; ?>">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0 fw-bold text-primary">
+          <i class="fas fa-edit me-2"></i>Sửa đơn thuốc #<?php echo $id; ?>
+        </h2>
+      </div>
 
-        <div class="row mb-3">
-          <div class="col-md-6">
-            <label class="form-label">Bệnh nhân</label>
-            <select name="patient_id" class="form-select" required>
-              <option value="">-- Chọn bệnh nhân --</option>
-              <?php while ($patient = mysqli_fetch_assoc($patients)): ?>
-                <option value="<?php echo $patient['id']; ?>"
-                  <?php echo ($patient['id'] == $prescription['patient_id']) ? 'selected' : ''; ?>>
-                  <?php echo $patient['full_name']; ?>
-                </option>
-              <?php endwhile; ?>
-            </select>
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label">Bác sĩ</label>
-            <select name="staff_id" class="form-select" required>
-              <option value="">-- Chọn bác sĩ --</option>
-              <?php while ($doctor = mysqli_fetch_assoc($doctors)): ?>
-                <option value="<?php echo $doctor['id']; ?>"
-                  <?php echo ($doctor['id'] == $prescription['staff_id']) ? 'selected' : ''; ?>>
-                  <?php echo $doctor['full_name']; ?> - <?php echo $doctor['position']; ?>
-                </option>
-              <?php endwhile; ?>
-            </select>
-          </div>
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+          <h5 class="card-title mb-0 fw-bold text-primary">
+            <i class="fas fa-file-prescription me-2"></i>Thông tin đơn thuốc
+          </h5>
         </div>
+        <div class="card-body">
+          <form method="POST" action="/management/prescriptions/edit.php?id=<?php echo $id; ?>" class="needs-validation" novalidate>
+            <input type="hidden" name="id" value="<?php echo $id; ?>">
 
-        <div class="table-responsive">
-          <table class="table table-bordered" id="medicineTable">
-            <thead>
-              <tr>
-                <th>Tên thuốc</th>
-                <th>Số lượng</th>
-                <th>Lô thuốc</th>
-                <th>Ghi chú</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($prescription_medicines as $med): ?>
-                <tr>
-                  <td>
-                    <select name="medicines[]" class="form-select medicine-select" required>
-                      <option value="">Chọn thuốc...</option>
-                      <?php
-                      mysqli_data_seek($medicines, 0);
-                      while ($medicine = mysqli_fetch_assoc($medicines)):
-                      ?>
-                        <option value="<?php echo $medicine['id']; ?>"
-                          <?php echo ($medicine['id'] == $med['medicine_id']) ? 'selected' : ''; ?>>
-                          <?php echo $medicine['name']; ?> (<?php echo $medicine['type_name']; ?>)
-                        </option>
-                      <?php endwhile; ?>
-                    </select>
-                  </td>
-                  <td>
-                    <input type="number" name="quantity[]" class="form-control"
-                      value="<?php echo $med['quantity']; ?>" min="1" required>
-                  </td>
-                  <td>
-                    <select name="batch_id[]" class="form-select batch-select" required>
-                      <option value="<?php echo $med['batch_id']; ?>">
-                        <?php echo $med['batch_number']; ?> (Còn: <?php echo $med['remaining'] + $med['quantity']; ?>)
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-4">
+                  <label class="form-label fw-bold">Bệnh nhân</label>
+                  <select name="patient_id" class="form-select" required>
+                    <option value="">Chọn bệnh nhân...</option>
+                    <?php while ($patient = mysqli_fetch_assoc($patients)): ?>
+                      <option value="<?php echo $patient['id']; ?>"
+                        <?php echo ($patient['id'] == $prescription['patient_id']) ? 'selected' : ''; ?>>
+                        <?php echo $patient['full_name']; ?>
                       </option>
-                    </select>
-                  </td>
-                  <td>
-                    <input type="text" name="notes[]" class="form-control"
-                      value="<?php echo $med['notes']; ?>" placeholder="Cách dùng...">
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-danger btn-sm remove-row">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-              <?php endforeach; ?>
-            </tbody>
-          </table>
-          <button type="button" class="btn btn-success btn-sm" id="addMedicine">
-            <i class="fas fa-plus me-2"></i>Thêm thuốc
-          </button>
-        </div>
+                    <?php endwhile; ?>
+                  </select>
+                  <div class="invalid-feedback">
+                    Vui lòng chọn bệnh nhân
+                  </div>
+                </div>
+              </div>
 
-        <div class="mb-3">
-          <label class="form-label">Chẩn đoán</label>
-          <textarea name="diagnosis" class="form-control" rows="3" required><?php echo $prescription['diagnosis']; ?></textarea>
-        </div>
+              <div class="col-md-6">
+                <div class="mb-4">
+                  <label class="form-label fw-bold">Bác sĩ</label>
+                  <select name="staff_id" class="form-select" required>
+                    <option value="">Chọn bác sĩ...</option>
+                    <?php while ($doctor = mysqli_fetch_assoc($doctors)): ?>
+                      <option value="<?php echo $doctor['id']; ?>"
+                        <?php echo ($doctor['id'] == $prescription['staff_id']) ? 'selected' : ''; ?>>
+                        <?php echo $doctor['full_name']; ?> - <?php echo $doctor['position']; ?>
+                      </option>
+                    <?php endwhile; ?>
+                  </select>
+                  <div class="invalid-feedback">
+                    Vui lòng chọn bác sĩ
+                  </div>
+                </div>
+              </div>
+            </div>
 
-        <div class="mb-3">
-          <label class="form-label">Ghi chú của bác sĩ</label>
-          <textarea name="doctor_notes" class="form-control" rows="3"><?php echo $prescription['doctor_notes'] ?? ''; ?></textarea>
-        </div>
+            <div class="mb-4">
+              <label class="form-label fw-bold">Danh sách thuốc</label>
+              <div class="table-responsive">
+                <table class="table table-bordered" id="medicineTable">
+                  <thead>
+                    <tr>
+                      <th>Tên thuốc</th>
+                      <th>Số lượng</th>
+                      <th>Lô thuốc</th>
+                      <th>Ghi chú</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php foreach ($prescription_medicines as $med): ?>
+                      <tr>
+                        <td>
+                          <select name="medicines[]" class="form-select medicine-select" required>
+                            <option value="">Chọn thuốc...</option>
+                            <?php
+                            mysqli_data_seek($medicines, 0);
+                            while ($medicine = mysqli_fetch_assoc($medicines)):
+                            ?>
+                              <option value="<?php echo $medicine['id']; ?>"
+                                <?php echo ($medicine['id'] == $med['medicine_id']) ? 'selected' : ''; ?>>
+                                <?php echo $medicine['name']; ?> (<?php echo $medicine['type_name']; ?>)
+                              </option>
+                            <?php endwhile; ?>
+                          </select>
+                        </td>
+                        <td>
+                          <input type="number" name="quantity[]" class="form-control"
+                            value="<?php echo $med['quantity']; ?>" min="1" required>
+                        </td>
+                        <td>
+                          <select name="batch_id[]" class="form-select batch-select" required>
+                            <option value="<?php echo $med['batch_id']; ?>">
+                              <?php echo $med['batch_number']; ?> (Còn: <?php echo $med['remaining'] + $med['quantity']; ?>)
+                            </option>
+                          </select>
+                        </td>
+                        <td>
+                          <input type="text" name="notes[]" class="form-control"
+                            value="<?php echo $med['notes']; ?>" placeholder="Cách dùng...">
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-danger btn-sm remove-row">
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    <?php endforeach; ?>
+                  </tbody>
+                </table>
+                <button type="button" class="btn btn-success btn-sm" id="addMedicine">
+                  <i class="fas fa-plus me-2"></i>Thêm thuốc
+                </button>
+              </div>
+            </div>
 
-        <div class="text-end">
-          <a href="view.php?id=<?php echo $id; ?>" class="btn btn-light me-2">Hủy</a>
-          <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+            <div class="mb-4">
+              <label class="form-label fw-bold">Chẩn đoán</label>
+              <textarea name="diagnosis" class="form-control" rows="3" required><?php echo $prescription['diagnosis']; ?></textarea>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label fw-bold">Ghi chú của bác sĩ</label>
+              <textarea name="doctor_notes" class="form-control" rows="3"><?php echo $prescription['doctor_notes'] ?? ''; ?></textarea>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <a href="view.php?id=<?php echo $id; ?>" class="btn btn-light me-md-2">
+                <i class="fas fa-arrow-left me-2"></i>Quay lại
+              </a>
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i>Lưu thay đổi
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>
